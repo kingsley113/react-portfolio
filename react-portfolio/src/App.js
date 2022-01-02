@@ -1,23 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import useHorizontal from "@oberon-amsterdam/horizontal/hook";
+import React, { useState } from "react";
+
+// import { Parallax } from "react-scroll-parallax";
+
+// import Header from "./containers/header";
+import Footer from "./containers/footer";
+import PageContent from "./containers/pageContent";
+import Background from "./components/main/background";
 
 function App() {
+  // Setup Horizontal Scroll
+  const [container, setContainer] = useState();
+  useHorizontal({ container: container });
+
+  // Setup Scrolling Parallax
+  const [scrollPos, setScrollPos] = useState(0);
+  // setScrollPos(0);
+  // let scrollContainer;
+
+  // window.addEventListener("DomContentLoaded", (event) => {
+  //   scrollContainer = document.getElementById("container");
+  // });
+
+  const handleScroll = (event) => {
+    // console.log("calling handleScroll function");
+    setScrollPos(container.scrollLeft);
+    // console.log(container.scrollLeft);
+    // console.log(scrollPos);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <Header /> */}
+      <div
+        className="container"
+        id="container"
+        ref={(ref) => {
+          setContainer(ref);
+        }}
+        onScroll={handleScroll}
+      >
+        {/* <Parallax
+          offsetXMax={-40}
+          offsetXMin={20}
+          // className="no-background"
+        > */}
+        <PageContent />
+        {/* </Parallax> */}
+      </div>
+      <Footer />
+      <Background position={scrollPos} />
     </div>
   );
 }
